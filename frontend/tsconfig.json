@@ -1,0 +1,27 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "nodenext",
+    "module": "NodeNext",
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["node"],
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "skipLibCheck": true
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.d.ts",
+    "src/features/Auth/LoginForm",
+    "babel.config.js",
+    "metro.config.js"
+  ],
+  "exclude": ["node_modules"]
+}

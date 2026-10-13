@@ -1,0 +1,7 @@
+.git
+.github
+.env
+config.yaml
+Dockerfile.multistage
+vendor
+qr.png

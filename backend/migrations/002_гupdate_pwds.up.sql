@@ -1,0 +1,10 @@
+update clients set password = '$2a$10$cBg40baIJ3LTPeLmkfUyCeQU4Txbeo11SL6v.8M8N5Pt.RY3mpsJa'
+where login = 'team237-1';
+update clients set password = '$2a$10$cBg40baIJ3LTPeLmkfUyCeQU4Txbeo11SL6v.8M8N5Pt.RY3mpsJa'
+where login = 'team237-2';
+update clients set password = '$2a$10$cBg40baIJ3LTPeLmkfUyCeQU4Txbeo11SL6v.8M8N5Pt.RY3mpsJa'
+where login = 'team237-3';
+update clients set password = '$2a$10$cBg40baIJ3LTPeLmkfUyCeQU4Txbeo11SL6v.8M8N5Pt.RY3mpsJa'
+where login = 'team237-4';
+update clients set password = '$2a$10$cBg40baIJ3LTPeLmkfUyCeQU4Txbeo11SL6v.8M8N5Pt.RY3mpsJa'
+where login = 'team237-5';

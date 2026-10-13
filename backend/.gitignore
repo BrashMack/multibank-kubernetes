@@ -1,0 +1,7 @@
+main
+.DS_Store
+.idea/
+docs/*.json
+docs/*.yaml
+**/config.yaml
+.env

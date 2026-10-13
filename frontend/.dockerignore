@@ -1,0 +1,7 @@
+.git
+.github
+.expo
+.env
+dist
+node_modules
+Dockerfile.multistage

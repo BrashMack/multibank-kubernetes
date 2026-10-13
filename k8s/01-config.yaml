@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: multibank
+data:
+  config.yaml: |
+    API:
+      CorsPolitics:
+        AllowOrigins:
+          - "http://multibank.local"
+          - "http://localhost:18080"
+        AllowMethods:
+          - "GET"
+          - "POST"
+          - "OPTIONS"
+        AllowHeaders:
+          - "Content-Type"
+          - "Accept"
+          - "Origin"
+          - "Authorization"
+        AllowCredentials: true
+    Service:
+      BankToName:
+        "awesomebank": "AwesomeBank"
+        "virtualbank": "VirtualBank"
+        "smartbank": "SmartBank"
+      Deposit:
+        Priority:
+          ProductID: ""
+          ProductName: ""
+          Bank: ""
+          Currency: ""
+          InterestRate: ""
+          MinAmount: ""
+          MaxAmount: ""
+          TermMonths: 12
+    Providers:
+      Redis:
+        Approved:
+          Client:
+            Host: "redis-approved"
+            Port: "6379"
+            DB: 0
+        Awaiting:
+          Client:
+            Host: "redis-awaiting"
+            Port: "6379"
+            DB: 0
+      Storage:
+        Host: "postgres"
+        Database: "multibank"
+        User: "multibank"
+        Port: "5432"
+      OpenAPI:
+        Disabled: true
+        Client:
+          Insecure: true
+          Retry:
+            Codes:
+              - 500
+              - 501
+              - 502
+              - 503
+              - 429
+        BaseUrls:
+          "awesomebank": "https://abank.open.bankingapi.ru"
+          "virtualbank": "https://vbank.open.bankingapi.ru"
+          "smartbank": "https://sbank.open.bankingapi.ru"
+        BankToCode:
+          "awesomebank": "abank"
+          "virtualbank": "vbank"
+          "smartbank": "sbank"
+    Logger:
+      DisableColors: true
+      FullTimestamp: true
+      PathToFile: ""
+      Level: "info"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: migration-files
+  namespace: multibank
+data:
+  001_init.up.sql: |
+    CREATE TABLE clients (
+        id SERIAL PRIMARY KEY,
+        login TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+
+    INSERT INTO clients (login, password)
+    VALUES
+        ('team237-1', '$2a$10$./Ao/./m.eVplDUKA85saOAuyGeQlwNJfCShxXGX0bf7Jv9l6gWbS'),
+        ('team237-2', '$2a$10$iHCSOGMioujK764P3n81WOETVXNtDlX0tB/zK2IrDxwYVBMkD1Q7y'),
+        ('team237-3', '$2a$10$8Nj2XIxcTGCNFDKyFKD6eelxj3ht.WDOua/u6DDm9a47gv94fuwaq'),
+        ('team237-4', '$2a$10$ZZmpKFrTgjTmsVVMwLsa8u5zAS5Qs9ik54bwvBC/xyHfKuBE2rJOq'),
+        ('team237-5', '$2a$10$yWMhhAsWRJx6UUcPgypqBOy3SVsUbxeXGafumYnC6ONc6tsEvaKmK');
+  002_update_passwords.up.sql: |
+    UPDATE clients
+    SET password = '$2a$10$cBg40baIJ3LTPeLmkfUyCeQU4Txbeo11SL6v.8M8N5Pt.RY3mpsJa'
+    WHERE login LIKE 'team237-%';
+  003_demo_user.up.sql: |
+    INSERT INTO clients (login, password)
+    VALUES ('demo', '$2y$10$rfldn2p9vSUgtzu1SCXHDu5PecCpE.mPrkNCc/KX8tn5SGQt55VTq')
+    ON CONFLICT (login) DO UPDATE SET password = EXCLUDED.password;

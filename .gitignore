@@ -1,0 +1,9 @@
+.tools/
+.env
+*.log
+
+backend/config.yaml
+backend/secrets.yaml
+frontend/.expo/
+frontend/dist/
+frontend/node_modules/
